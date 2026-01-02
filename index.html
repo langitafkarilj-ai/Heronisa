@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday 🤍</title>
+<title>Heronisa 🤍</title>
 
 <style>
 *{
@@ -106,6 +106,7 @@ h2{
   border-radius:22px;
   padding:18px;
   width:600px;
+  animation:popupShow .45s ease;
 }
 
 .popup img{
@@ -155,6 +156,17 @@ h2{
   animation:fadeUp 1.2s ease;
 }
 
+.back-btn{
+  border:none;
+  background:rgba(255,255,255,.7);
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  margin-bottom:18px;
+}
+
 .end .heart{
   font-size:36px;
   cursor:pointer;
@@ -166,7 +178,6 @@ h2{
   margin-top:10px;
   font-size:12px;
   color:#777;
-  letter-spacing:.5px;
 }
 
 .secret{
@@ -193,12 +204,19 @@ h2{
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.15)}
 }
+
+@keyframes popupShow{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
+}
 </style>
 </head>
 
 <body>
 
 <div class="hearts" id="hearts"></div>
+
+<audio id="music" src="music.mp3"></audio>
 
 <div class="card">
   <h2>Selamat Ulang Tahun</h2>
@@ -231,6 +249,8 @@ h2{
 <!-- END PAGE -->
 <div class="end" id="end">
   <div class="end-content">
+    <button class="back-btn" onclick="backToGallery()">← Back</button>
+
     <p>
       Terima kasih sudah lahir,<br>
       dan mengajarkan aku arti mencintai.
@@ -263,9 +283,9 @@ function createHeart(){
   hearts.appendChild(h);
   setTimeout(()=>h.remove(),20000);
 }
-setInterval(createHeart,900);
+setInterval(createHeart,1000);
 
-/* GALLERY */
+/* GALLERY + MUSIC */
 const photos=[
  {src:'foto1.JPG',text:'Hari pertama yang tanpa sadar aku ingat sampai sekarang.'},
  {src:'foto2.JPG',text:'Waktu berjalan, tapi rasanya tetap sama.'},
@@ -277,6 +297,7 @@ const popupImg=document.getElementById('popupImg');
 const popupText=document.getElementById('popupText');
 const end=document.getElementById('end');
 const secret=document.getElementById('secret');
+const music=document.getElementById('music');
 
 let i=0;
 
@@ -284,6 +305,7 @@ function openPopup(n){
   i=n;
   update();
   overlay.style.display='flex';
+  music.play();
 }
 
 function update(){
@@ -312,6 +334,10 @@ function closePopup(){
 
 function openSecret(){
   secret.style.display='block';
+}
+
+function backToGallery(){
+  end.style.display='none';
 }
 </script>
 
