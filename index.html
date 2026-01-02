@@ -6,36 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
-}
-
-/* BACKGROUND GRADIENT BERGERAK */
+*{margin:0;padding:0;box-sizing:border-box;font-family: 'Segoe UI',sans-serif;}
 body{
   min-height:100vh;
-  background:linear-gradient(
-    120deg,
-    #ff7eb3,
-    #ffb3d9,
-    #ffe1ef,
-    #ffffff
-  );
-  background-size:400% 400%;
-  animation:bgMove 25s ease infinite;
+  background:linear-gradient(120deg,#ff8fcf,#ffd1e8,#fff);
+  background-size:300% 300%;
+  animation:bgMove 15s ease infinite;
   overflow:hidden;
 }
-
 @keyframes bgMove{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
 
-/* CONTAINER */
 .container{
+  position:relative;
   width:100%;
   height:100vh;
   display:flex;
@@ -43,7 +29,6 @@ body{
   align-items:center;
 }
 
-/* CARD */
 .card{
   background:rgba(255,255,255,.9);
   padding:30px;
@@ -51,11 +36,8 @@ body{
   text-align:center;
   width:90%;
   max-width:500px;
-  position:relative;
-  z-index:2;
 }
 
-/* GALLERY */
 .gallery{
   display:flex;
   gap:15px;
@@ -71,17 +53,12 @@ body{
   cursor:pointer;
   transition:.3s;
 }
-.gallery img:hover{
-  transform:scale(1.05);
-}
+.gallery img:hover{transform:scale(1.05)}
 
-/* POPUP OVERLAY (HANYA UNTUK POPUP FOTO) */
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background:rgba(0,0,0,.4);
   display:none;
   justify-content:center;
   align-items:center;
@@ -94,11 +71,9 @@ body{
   border-radius:20px;
   text-align:center;
   animation:zoom .4s ease;
-  z-index:11;
 }
-
 @keyframes zoom{
-  from{transform:scale(.85);opacity:0}
+  from{transform:scale(.7);opacity:0}
   to{transform:scale(1);opacity:1}
 }
 
@@ -107,14 +82,6 @@ body{
   border-radius:15px;
 }
 
-/* TEXT DI POPUP */
-.popup p{
-  margin-top:10px;
-  font-size:14px;
-  color:#444;
-}
-
-/* BUTTON */
 .btn{
   margin-top:15px;
   padding:8px 20px;
@@ -125,7 +92,6 @@ body{
   color:white;
 }
 
-/* END PAGE (TANPA BLUR) */
 .end{
   position:fixed;
   inset:0;
@@ -134,43 +100,18 @@ body{
   align-items:center;
   text-align:center;
   z-index:20;
-  background:transparent;
 }
 
-/* LOVE CLICKABLE */
-.love{
-  font-size:30px;
-  margin-top:10px;
-  cursor:pointer;
-  animation:pulse 2s infinite;
+.back{
+  margin-top:20px;
 }
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-}
-
-.clue{
-  font-size:12px;
-  margin-top:5px;
-}
-
-.secret{
-  display:none;
-  margin-top:15px;
-  font-size:14px;
-  line-height:1.6;
-}
-
-/* FLOATING HEART */
 .heart{
   position:fixed;
   bottom:-20px;
   font-size:20px;
   animation:float 8s linear infinite;
-  pointer-events:none;
 }
-
 @keyframes float{
   from{transform:translateY(0);opacity:1}
   to{transform:translateY(-110vh);opacity:0}
@@ -197,33 +138,21 @@ body{
   </div>
 </div>
 
-<!-- POPUP FOTO -->
-<div class="overlay" id="overlay" onclick="closePopup()">
-  <div class="popup" onclick="event.stopPropagation()">
+<div class="overlay" id="overlay">
+  <div class="popup">
     <img id="popupImg">
-    <p id="popupText">Untuk setiap senyum yang kamu simpan 🤍</p>
+    <br>
     <button class="btn" onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- END PAGE -->
 <div class="end" id="end">
   <div class="card">
-    <p>
-      Terima kasih sudah lahir,<br>
-      dan mengajarkan aku arti mencintai.
-    </p>
+    <p>Terima kasih sudah lahir,<br>dan mengajarkan aku arti mencintai.</p>
+    <div style="font-size:30px">🤍</div>
+    <p style="font-size:12px;margin-top:5px">clue: white love</p>
 
-    <div class="love" onclick="toggleSecret()">🤍</div>
-    <div class="clue">clue: white love</div>
-
-    <div class="secret" id="secret">
-      Aku bersyukur, bukan karena hari ini saja.<br>
-      Tapi karena setiap hari aku bisa menyebut namamu<br>
-      sebagai seseorang yang paling berarti 🤍
-    </div>
-
-    <div style="margin-top:20px">
+    <div class="back">
       <button class="btn" onclick="backHome()">Back</button>
     </div>
   </div>
@@ -231,25 +160,16 @@ body{
 
 <script>
 const imgs=["foto1.JPG","foto2.JPG","foto3.JPG"];
-const texts=[
-  "Untuk setiap senyum yang kamu simpan 🤍",
-  "Dan setiap cerita yang kamu bagi 🤍",
-  "Aku bersyukur kamu ada 🤍"
-];
-
 let i=0;
 
 const overlay=document.getElementById('overlay');
 const popupImg=document.getElementById('popupImg');
-const popupText=document.getElementById('popupText');
 const end=document.getElementById('end');
-const secret=document.getElementById('secret');
 const music=document.getElementById('music');
 
 function openPopup(n){
   i=n;
   popupImg.src=imgs[i];
-  popupText.innerText=texts[i];
   overlay.style.display='flex';
 
   music.volume=0.6;
@@ -262,27 +182,16 @@ function next(){
   i++;
   if(i<imgs.length){
     popupImg.src=imgs[i];
-    popupText.innerText=texts[i];
   }else{
     overlay.style.display='none';
     end.style.display='flex';
   }
 }
 
-function closePopup(){
-  overlay.style.display='none';
-}
-
 function backHome(){
   end.style.display='none';
 }
 
-function toggleSecret(){
-  secret.style.display =
-    (secret.style.display === 'block') ? 'none' : 'block';
-}
-
-/* FLOATING HEART */
 function heart(){
   const h=document.createElement('div');
   h.className='heart';
@@ -292,7 +201,7 @@ function heart(){
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),8000);
 }
-setInterval(heart,600);
+setInterval(heart,500);
 </script>
 
 </body>
