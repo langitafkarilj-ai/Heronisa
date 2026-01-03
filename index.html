@@ -13,16 +13,50 @@
   font-family:'Segoe UI',sans-serif;
 }
 
+/* ================= BREATHING BACKGROUND (VISIBLE) ================= */
 body{
-  background: linear-gradient(135deg,#f472b6,#fbcfe8,#ffffff);
+  position:relative;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
+  background:#fbcfe8;
 }
 
-/* FLOATING HEART */
+/* BREATHING LAYER */
+body::before{
+  content:'';
+  position:absolute;
+  inset:-30%;
+  background: linear-gradient(
+    120deg,
+    #f472b6,
+    #fbcfe8,
+    #ffffff,
+    #f9a8d4,
+    #f472b6
+  );
+  animation: breathe 16s ease-in-out infinite;
+  z-index:0;
+}
+
+@keyframes breathe{
+  0%{
+    transform:scale(1);
+    opacity:.85;
+  }
+  50%{
+    transform:scale(1.14);
+    opacity:1;
+  }
+  100%{
+    transform:scale(1);
+    opacity:.85;
+  }
+}
+
+/* ================= FLOATING HEART ================= */
 .hearts{
   position:fixed;
   inset:0;
@@ -33,11 +67,11 @@ body{
 .heart-float{
   position:absolute;
   bottom:-40px;
-  opacity:.4;
+  opacity:.5;
   animation:floatUp linear infinite;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 .card{
   position:relative;
   z-index:2;
@@ -60,7 +94,7 @@ h2{
   color:#888;
 }
 
-/* GALLERY */
+/* ================= GALLERY ================= */
 .gallery{
   margin-top:26px;
   display:grid;
@@ -78,10 +112,10 @@ h2{
 }
 
 .gallery img:hover{
-  transform:scale(1.05);
+  transform:scale(1.06);
 }
 
-/* TEXT */
+/* ================= TEXT ================= */
 .photo-text{
   margin-top:18px;
   font-size:14px;
@@ -89,12 +123,12 @@ h2{
   line-height:1.6;
 }
 
-/* POPUP */
+/* ================= POPUP ================= */
 .overlay{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.6);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(12px);
   display:none;
   justify-content:center;
   align-items:center;
@@ -139,7 +173,7 @@ h2{
   cursor:pointer;
 }
 
-/* END PAGE */
+/* ================= END PAGE ================= */
 .end{
   display:none;
   position:fixed;
@@ -171,7 +205,7 @@ h2{
   font-size:36px;
   cursor:pointer;
   margin-top:20px;
-  animation:pulse 2s infinite;
+  animation:pulse 2.4s infinite;
 }
 
 .clue{
@@ -189,10 +223,10 @@ h2{
   line-height:1.7;
 }
 
-/* ANIMATION */
+/* ================= ANIMATION ================= */
 @keyframes floatUp{
-  from{transform:translateY(0);opacity:.4;}
-  to{transform:translateY(-110vh);opacity:0;}
+  from{transform:translateY(0);opacity:.5;}
+  to{transform:translateY(-115vh);opacity:0;}
 }
 
 @keyframes fadeUp{
@@ -202,7 +236,7 @@ h2{
 
 @keyframes pulse{
   0%,100%{transform:scale(1)}
-  50%{transform:scale(1.15)}
+  50%{transform:scale(1.18)}
 }
 
 @keyframes popupShow{
@@ -216,7 +250,6 @@ h2{
 
 <div class="hearts" id="hearts"></div>
 
-<!-- AUDIO (FIXED & SAFE) -->
 <audio id="music" preload="auto" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -237,7 +270,6 @@ h2{
   </p>
 </div>
 
-<!-- POPUP -->
 <div class="overlay" id="overlay" onclick="closePopup()">
   <div class="popup" onclick="event.stopPropagation()">
     <img id="popupImg">
@@ -249,19 +281,15 @@ h2{
   </div>
 </div>
 
-<!-- END PAGE -->
 <div class="end" id="end">
   <div class="end-content">
     <button class="back-btn" onclick="backToGallery()">← Back</button>
-
     <p>
       Terima kasih sudah lahir,<br>
       dan mengajarkan aku arti mencintai.
     </p>
-
     <div class="heart" onclick="openSecret()">🤍</div>
     <div class="clue">clue: white love</div>
-
     <div class="secret" id="secret">
       Aku bersyukur, bukan karena hari ini saja.<br>
       Tapi karena setiap hari aku bisa menyebut namamu<br>
@@ -273,21 +301,19 @@ h2{
 </div>
 
 <script>
-/* FLOATING HEART */
 const hearts=document.getElementById('hearts');
 function createHeart(){
   const h=document.createElement('div');
   h.className='heart-float';
   h.innerHTML=Math.random()>0.5?'🤍':'💗';
   h.style.left=Math.random()*100+'vw';
-  h.style.fontSize=16+Math.random()*24+'px';
-  h.style.animationDuration=12+Math.random()*8+'s';
+  h.style.fontSize=18+Math.random()*26+'px';
+  h.style.animationDuration=14+Math.random()*10+'s';
   hearts.appendChild(h);
-  setTimeout(()=>h.remove(),20000);
+  setTimeout(()=>h.remove(),24000);
 }
-setInterval(createHeart,1000);
+setInterval(createHeart,1400);
 
-/* GALLERY + MUSIC */
 const photos=[
  {src:'foto1.JPG',text:'Hari pertama yang tanpa sadar aku ingat sampai sekarang.'},
  {src:'foto2.JPG',text:'Waktu berjalan, tapi rasanya tetap sama.'},
@@ -307,7 +333,6 @@ function openPopup(n){
   i=n;
   update();
   overlay.style.display='flex';
-
   music.volume=0.6;
   music.play().catch(()=>{
     document.body.addEventListener('click',()=>music.play(),{once:true});
