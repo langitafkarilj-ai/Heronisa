@@ -278,7 +278,7 @@ h2{font-size:28px}
   left: 0;
   bottom: -30px;
   font-size: 24px;
-  animation: rise 4s linear forwards;
+  animation: rise 5s linear forwards; /* 5 detik */
   pointer-events: none;
   z-index: 100000;
 }
@@ -357,7 +357,10 @@ h2{font-size:28px}
       <p>
         Semoga di umur Hero yang ke-14 ini<br>
         kamu lebih bijakk yaa dalam milih keputusann<br>
-        kamu lebih mencintai dirii sendirii nggak, jahat sama diri sendiri<br>kamu lebih dicinatii sama orang orang, orang orang lebih peduli sama kamu<br>kamuu jugaaa lebih deket samaa Allah inget allah di semua cobaan kamu.<br>Panjang umur sehat selalu yaa sayanggkuuu langitt sayangg bangett samaa kamu🤍<br>
+        kamu lebih mencintai dirii sendirii nggak, jahat sama diri sendiri<br>
+        kamu lebih dicinatii sama orang orang, orang orang lebih peduli sama kamu<br>
+        kamuu jugaaa lebih deket samaa Allah inget allah di semua cobaan kamu.<br>
+        Panjang umur sehat selalu yaa sayanggkuuu langitt sayangg bangett samaa kamu🤍<br>
         — dari langit
       </p>
       <div class="clue bottom">tap anywhere to back</div>
@@ -434,12 +437,7 @@ function fadeOutMusic(){
   },100);
 }
 
-function openPopup(n){
-  i=n;
-  overlay.style.display='flex';
-  updateSlide();
-  if(!musicStarted){musicStarted=true;fadeInMusic();}
-}
+function openPopup(n){i=n;overlay.style.display='flex';updateSlide();if(!musicStarted){musicStarted=true;fadeInMusic();}}
 function updateSlide(){
   slides.forEach((s,idx)=>{
     s.classList.remove('active','prev');
@@ -450,16 +448,7 @@ function updateSlide(){
   dots.forEach((d,idx)=>d.classList.toggle('active',idx===i));
   prevBtn.classList.toggle('disabled',i===0);
 }
-function next(){
-  i++;
-  if(i>=photos.length){
-    overlay.style.display='none';
-    end.style.display='flex';
-    setTimeout(()=>end.classList.add('show'),50);
-    return;
-  }
-  updateSlide();
-}
+function next(){i++;if(i>=photos.length){overlay.style.display='none';end.style.display='flex';setTimeout(()=>end.classList.add('show'),50);return;}updateSlide();}
 function prev(){if(i>0){i--;updateSlide();}}
 function closePopup(){overlay.style.display='none';}
 
@@ -482,10 +471,35 @@ function tapToBack(){
   },900);
 }
 
-/* COUNTDOWN + LOVE RISE (langsung hari ini, floating love 5 detik) */
-const targetDate = new Date("2026-01-13T00:00:00").getTime(); // countdown selesai sekarang
+/* COUNTDOWN + LOVE RISE */
+const countdownText = document.getElementById('countdownText');
+const countdownScreen = document.getElementById('countdownScreen');
+
+// target tanggal: 13 Jan 2026 jam 00:00
+const targetDate = new Date().getTime();
 let loveTriggered=false;
 
+const countdownInterval = setInterval(()=>{
+  const now = new Date().getTime();
+  let distance = targetDate - now;
+
+  if(distance < 0) distance = 0;
+
+  const days = Math.floor(distance / (1000*60*60*24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  countdownText.innerText = `${days} hari ${hours} jam ${minutes} mnt ${seconds} dtk`;
+
+  if(distance <= 0){
+    clearInterval(countdownInterval);
+    countdownScreen.classList.add('hide');
+    startLoveRise();
+  }
+}, 1000);
+
+// floating love
 function riseLove(){
   const l=document.createElement('div');
   l.className='love-rise';
@@ -493,20 +507,16 @@ function riseLove(){
   l.style.left=Math.random()*100+'vw';
   l.style.fontSize=20+Math.random()*24+'px';
   document.body.appendChild(l);
-  setTimeout(()=>l.remove(),4000);
+  setTimeout(()=>l.remove(),5000); // love naik 5 detik
 }
 
-// langsung hide countdown dan start love rise
-const screen=document.getElementById('countdownScreen');
-screen.classList.add('show');
-
-if(!loveTriggered){
-  loveTriggered=true;
-  const loveInterval = setInterval(riseLove, 280); // muncul tiap 0,28 detik
-  setTimeout(()=>clearInterval(loveInterval), 5000); // berhenti setelah 5 detik
+function startLoveRise(){
+  if(!loveTriggered){
+    loveTriggered=true;
+    const loveInterval = setInterval(riseLove, 280);
+    setTimeout(()=>clearInterval(loveInterval),5000);
+  }
 }
-
 </script>
-
 </body>
 </html>
