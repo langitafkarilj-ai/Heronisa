@@ -14,12 +14,12 @@
 }
 
 body{
+  background: linear-gradient(135deg,#f472b6,#fbcfe8,#ffffff);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  background: linear-gradient(135deg,#f472b6,#fbcfe8,#ffffff);
 }
 
 /* FLOATING HEART */
@@ -29,10 +29,11 @@ body{
   pointer-events:none;
   z-index:1;
 }
+
 .heart-float{
   position:absolute;
   bottom:-40px;
-  opacity:.5;
+  opacity:.4;
   animation:floatUp linear infinite;
 }
 
@@ -48,28 +49,41 @@ body{
   box-shadow:0 30px 60px rgba(244,114,182,.35);
 }
 
-h2{font-size:28px}
-.name{margin-top:8px;font-size:18px;color:#888}
+h2{
+  font-size:28px;
+  font-weight:600;
+}
 
-/* GALLERY */
+.name{
+  margin-top:6px;
+  font-size:18px;
+  color:#888;
+}
+
+/* GALLERY (DIPADATKAN) */
 .gallery{
-  margin-top:26px;
+  margin-top:14px; /* SEBELUMNYA 26px */
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
 }
+
 .gallery img{
   width:100%;
-  height:120px;
+  height:95px; /* SEBELUMNYA 120px */
   object-fit:cover;
   border-radius:14px;
   cursor:pointer;
   transition:.3s;
 }
-.gallery img:hover{transform:scale(1.06)}
 
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+/* TEXT */
 .photo-text{
-  margin-top:18px;
+  margin-top:12px; /* SEBELUMNYA 18px */
   font-size:14px;
   color:#666;
   line-height:1.6;
@@ -80,85 +94,49 @@ h2{font-size:28px}
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.6);
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(10px);
   display:none;
   justify-content:center;
   align-items:center;
   z-index:10;
 }
+
 .popup{
   background:#fff;
   border-radius:22px;
   padding:18px;
   width:600px;
-  overflow:hidden;
+  animation:popupShow .45s ease;
 }
 
-/* SLIDER */
-.slider{
-  position:relative;
-  height:65vh;
-}
-.slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transform:translateX(40px);
-  transition:all .6s ease;
-}
-.slide.active{
-  opacity:1;
-  transform:translateX(0);
-}
-.slide.prev{
-  transform:translateX(-40px);
-}
-.slide img{
+.popup img{
   width:100%;
-  height:100%;
+  max-height:65vh;
   object-fit:contain;
   border-radius:16px;
 }
 
-/* TEXT */
 .popup .text{
   margin-top:14px;
   font-size:16px;
   color:#555;
+  line-height:1.6;
 }
 
-/* PROGRESS */
-.progress{
-  margin-top:10px;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-}
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#ddd;
-}
-.dot.active{background:#f472b6}
-
-/* NAV */
 .nav{
   display:flex;
   justify-content:space-between;
-  margin-top:12px;
+  margin-top:14px;
 }
+
 .nav button{
   border:none;
   background:linear-gradient(135deg,#f472b6,#ec4899);
   color:#fff;
   padding:8px 18px;
   border-radius:30px;
+  font-size:14px;
   cursor:pointer;
-}
-.nav button.disabled{
-  opacity:0;
-  pointer-events:none;
 }
 
 /* END PAGE */
@@ -171,65 +149,63 @@ h2{font-size:28px}
   align-items:center;
   text-align:center;
   z-index:20;
-  opacity:0;
-  transition:opacity 1.2s ease;
 }
-.end.show{opacity:1}
+
+.end-content{
+  color:#555;
+  animation:fadeUp 1.2s ease;
+}
 
 .end .heart{
-  font-size:38px;
-  margin-top:20px;
-  animation:pulse 2.4s infinite;
+  font-size:36px;
   cursor:pointer;
-}
-.end .heart.used{
-  animation:none;
-  opacity:.6;
+  margin-top:20px;
+  animation:pulse 2s infinite;
 }
 
-/* SECRET */
 .secret{
   display:none;
-  margin-top:20px;
-  animation:fadeUp 1s ease;
-}
-.secret img{
-  width:220px;
-  border-radius:20px;
-  margin-bottom:14px;
-  filter:blur(12px);
-  opacity:0;
-  transition:filter 1.8s ease, opacity 1.8s ease;
-}
-.secret img.show{
-  filter:blur(0);
-  opacity:1;
-}
-.secret p{
-  background:rgba(255,255,255,.75);
-  padding:18px;
+  margin-top:22px;
+  background:rgba(255,255,255,.7);
+  padding:20px;
   border-radius:18px;
   line-height:1.7;
 }
-.clue.bottom{
+
+.secret img{
+  width:100%;
+  max-height:240px;
+  object-fit:cover;
+  border-radius:14px;
+  margin-bottom:14px;
+}
+
+.clue{
   margin-top:16px;
   font-size:12px;
   color:#777;
   opacity:.8;
 }
 
-/* ANIM */
+/* ANIMATION */
 @keyframes floatUp{
-  from{transform:translateY(0);opacity:.5}
-  to{transform:translateY(-115vh);opacity:0}
+  from{transform:translateY(0);opacity:.4;}
+  to{transform:translateY(-110vh);opacity:0;}
 }
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 @keyframes pulse{
   0%,100%{transform:scale(1)}
-  50%{transform:scale(1.18)}
+  50%{transform:scale(1.15)}
 }
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
+
+@keyframes popupShow{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
 }
 </style>
 </head>
@@ -238,8 +214,7 @@ h2{font-size:28px}
 
 <div class="hearts" id="hearts"></div>
 
-<!-- AUDIO -->
-<audio id="music" preload="auto" loop>
+<audio id="music" loop preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -259,44 +234,35 @@ h2{font-size:28px}
   </p>
 </div>
 
+<!-- POPUP -->
 <div class="overlay" id="overlay" onclick="closePopup()">
   <div class="popup" onclick="event.stopPropagation()">
-
-    <div class="slider" id="slider"></div>
+    <img id="popupImg">
     <div class="text" id="popupText"></div>
-
-    <div class="progress">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-
     <div class="nav">
-      <button id="prevBtn" onclick="prev()">←</button>
+      <button onclick="prev()">←</button>
       <button onclick="next()">→</button>
     </div>
-
   </div>
 </div>
 
-<div class="end" id="end" onclick="tapToBack()">
-  <div onclick="event.stopPropagation()">
+<!-- END PAGE -->
+<div class="end" id="end" onclick="backToGallery()">
+  <div class="end-content" onclick="event.stopPropagation()">
     <p>
       Terima kasih sudah lahir,<br>
       dan mengajarkan aku arti mencintai.
     </p>
 
-    <div class="heart" id="love" onclick="openSecret()">🤍</div>
+    <div class="heart" onclick="openSecret()">🤍</div>
 
     <div class="secret" id="secret">
-      <img src="foto-end.JPG" id="secretImg">
-      <p>
-        Aku bersyukur, bukan karena hari ini saja.<br>
-        Tapi karena setiap hari aku bisa menyebut namamu<br>
-        sebagai seseorang yang paling berarti 🤍<br><br>
-        — dari langit
-      </p>
-      <div class="clue bottom">tap anywhere to back</div>
+      <img src="foto-end.JPG">
+      Aku bersyukur, bukan karena hari ini saja.<br>
+      Tapi karena setiap hari aku bisa menyebut namamu<br>
+      sebagai seseorang yang paling berarti 🤍<br><br>
+      — dari langit
+      <div class="clue">tap anywhere to back</div>
     </div>
   </div>
 </div>
@@ -304,18 +270,19 @@ h2{font-size:28px}
 <script>
 /* FLOATING HEART */
 const hearts=document.getElementById('hearts');
-setInterval(()=>{
+function createHeart(){
   const h=document.createElement('div');
   h.className='heart-float';
   h.innerHTML=Math.random()>0.5?'🤍':'💗';
   h.style.left=Math.random()*100+'vw';
-  h.style.fontSize=18+Math.random()*26+'px';
-  h.style.animationDuration=14+Math.random()*10+'s';
+  h.style.fontSize=16+Math.random()*24+'px';
+  h.style.animationDuration=12+Math.random()*8+'s';
   hearts.appendChild(h);
-  setTimeout(()=>h.remove(),24000);
-},1400);
+  setTimeout(()=>h.remove(),20000);
+}
+setInterval(createHeart,1000);
 
-/* DATA */
+/* GALLERY + MUSIC */
 const photos=[
  {src:'foto1.JPG',text:'Hari pertama yang tanpa sadar aku ingat sampai sekarang.'},
  {src:'foto2.JPG',text:'Waktu berjalan, tapi rasanya tetap sama.'},
@@ -323,78 +290,31 @@ const photos=[
 ];
 
 const overlay=document.getElementById('overlay');
-const slider=document.getElementById('slider');
+const popupImg=document.getElementById('popupImg');
 const popupText=document.getElementById('popupText');
-const dots=document.querySelectorAll('.dot');
-const prevBtn=document.getElementById('prevBtn');
 const end=document.getElementById('end');
 const secret=document.getElementById('secret');
-const secretImg=document.getElementById('secretImg');
-const love=document.getElementById('love');
 const music=document.getElementById('music');
 
 let i=0;
-let revealed=false;
-let musicStarted=false;
-let savedTime=0;
 
-/* INIT SLIDES */
-photos.forEach(p=>{
-  const wrap=document.createElement('div');
-  wrap.className='slide';
-  wrap.innerHTML=`<img src="${p.src}">`;
-  slider.appendChild(wrap);
-});
-const slides=document.querySelectorAll('.slide');
+function openPopup(n){
+  i=n;
+  update();
+  overlay.style.display='flex';
 
-/* MUSIC HELPERS */
-function fadeInMusic(){
   music.volume=0;
   music.play().catch(()=>{});
   let v=0;
   const fade=setInterval(()=>{
-    if(v<0.6){
-      v+=0.02;
-      music.volume=v;
-    }else clearInterval(fade);
+    if(v<0.6){v+=0.02;music.volume=v;}
+    else clearInterval(fade);
   },100);
 }
 
-function fadeOutMusic(cb){
-  let v=music.volume;
-  const fade=setInterval(()=>{
-    if(v>0){
-      v-=0.02;
-      music.volume=Math.max(v,0);
-    }else{
-      music.pause();
-      clearInterval(fade);
-      cb && cb();
-    }
-  },100);
-}
-
-/* GALLERY */
-function openPopup(n){
-  i=n;
-  overlay.style.display='flex';
-  updateSlide();
-
-  if(!musicStarted){
-    musicStarted=true;
-    fadeInMusic();
-  }
-}
-
-function updateSlide(){
-  slides.forEach((s,idx)=>{
-    s.classList.remove('active','prev');
-    if(idx===i) s.classList.add('active');
-    if(idx<i) s.classList.add('prev');
-  });
+function update(){
+  popupImg.src=photos[i].src;
   popupText.innerText=photos[i].text;
-  dots.forEach((d,idx)=>d.classList.toggle('active',idx===i));
-  prevBtn.classList.toggle('disabled',i===0);
 }
 
 function next(){
@@ -402,42 +322,39 @@ function next(){
   if(i>=photos.length){
     overlay.style.display='none';
     end.style.display='flex';
-    setTimeout(()=>end.classList.add('show'),50);
     return;
   }
-  updateSlide();
+  update();
 }
 
 function prev(){
   if(i===0) return;
   i--;
-  updateSlide();
+  update();
 }
 
 function closePopup(){
   overlay.style.display='none';
 }
 
-/* END */
 function openSecret(){
-  if(revealed) return;
-  revealed=true;
-
-  savedTime = music.currentTime;
-  fadeOutMusic();
-
   secret.style.display='block';
-  love.classList.add('used');
-  setTimeout(()=>secretImg.classList.add('show'),400);
+
+  let v=music.volume;
+  const fadeOut=setInterval(()=>{
+    if(v>0){v-=0.02;music.volume=v;}
+    else{music.pause();clearInterval(fadeOut);}
+  },100);
 }
 
-function tapToBack(){
-  end.classList.remove('show');
-  setTimeout(()=>{
-    end.style.display='none';
-    music.currentTime = savedTime;
-    fadeInMusic();
-  },900);
+function backToGallery(){
+  end.style.display='none';
+  music.play().catch(()=>{});
+  let v=music.volume;
+  const fadeIn=setInterval(()=>{
+    if(v<0.6){v+=0.02;music.volume=v;}
+    else clearInterval(fadeIn);
+  },100);
 }
 </script>
 
