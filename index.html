@@ -13,7 +13,7 @@
   font-family:'Segoe UI',sans-serif;
 }
 
-/* ================= STATIC BACKGROUND ================= */
+/* BACKGROUND */
 body{
   min-height:100vh;
   display:flex;
@@ -23,7 +23,7 @@ body{
   background: linear-gradient(135deg,#f472b6,#fbcfe8,#ffffff);
 }
 
-/* ================= TRANSITION LAYER ================= */
+/* TRANSITION */
 .transition{
   position:fixed;
   inset:0;
@@ -35,7 +35,7 @@ body{
 }
 .transition.show{opacity:1}
 
-/* ================= FLOATING HEART ================= */
+/* FLOATING HEART */
 .hearts{
   position:fixed;
   inset:0;
@@ -49,7 +49,7 @@ body{
   animation:floatUp linear infinite;
 }
 
-/* ================= CARD ================= */
+/* CARD */
 .card{
   position:relative;
   z-index:2;
@@ -64,7 +64,7 @@ body{
 h2{font-size:28px}
 .name{margin-top:8px;font-size:18px;color:#888}
 
-/* ================= GALLERY ================= */
+/* GALLERY */
 .gallery{
   margin-top:26px;
   display:grid;
@@ -88,7 +88,7 @@ h2{font-size:28px}
   line-height:1.6;
 }
 
-/* ================= POPUP ================= */
+/* POPUP */
 .overlay{
   position:fixed;
   inset:0;
@@ -131,7 +131,7 @@ h2{font-size:28px}
   cursor:pointer;
 }
 
-/* ================= END PAGE ================= */
+/* END PAGE */
 .end{
   display:none;
   position:fixed;
@@ -141,7 +141,6 @@ h2{font-size:28px}
   align-items:center;
   text-align:center;
   z-index:20;
-
   opacity:0;
   transform:translateY(40px);
   transition:opacity 1.2s ease, transform 1.2s ease;
@@ -163,21 +162,36 @@ h2{font-size:28px}
 }
 
 .end .heart{
-  font-size:36px;
+  font-size:38px;
   cursor:pointer;
   margin-top:20px;
   animation:pulse 2.4s infinite;
 }
+
 .clue{font-size:12px;color:#777;margin-top:10px}
+
 .secret{
   display:none;
-  margin-top:22px;
-  background:rgba(255,255,255,.7);
-  padding:20px;
-  border-radius:18px;
+  margin-top:20px;
+  animation:fadeUp 1s ease;
 }
 
-/* ================= ANIMATION ================= */
+.secret img{
+  width:220px;
+  border-radius:20px;
+  margin-bottom:14px;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
+}
+
+.secret p{
+  background:rgba(255,255,255,.75);
+  padding:18px;
+  border-radius:18px;
+  line-height:1.7;
+  color:#555;
+}
+
+/* ANIMATION */
 @keyframes floatUp{
   from{transform:translateY(0);opacity:.5}
   to{transform:translateY(-115vh);opacity:0}
@@ -189,6 +203,10 @@ h2{font-size:28px}
 @keyframes pulse{
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.18)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
@@ -232,17 +250,23 @@ h2{font-size:28px}
 <div class="end" id="end">
   <div>
     <button class="back-btn" onclick="backToGallery()">← Back</button>
+
     <p>
       Terima kasih sudah lahir,<br>
       dan mengajarkan aku arti mencintai.
     </p>
+
     <div class="heart" onclick="openSecret()">🤍</div>
     <div class="clue">clue: white love</div>
+
     <div class="secret" id="secret">
-      Aku bersyukur, bukan karena hari ini saja.<br>
-      Tapi karena setiap hari aku bisa menyebut namamu<br>
-      sebagai seseorang yang paling berarti 🤍<br><br>
-      — dari langit
+      <img src="foto-end.JPG">
+      <p>
+        Aku bersyukur, bukan karena hari ini saja.<br>
+        Tapi karena setiap hari aku bisa menyebut namamu<br>
+        sebagai seseorang yang paling berarti 🤍<br><br>
+        — dari langit
+      </p>
     </div>
   </div>
 </div>
