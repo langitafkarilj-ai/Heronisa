@@ -239,7 +239,7 @@ h2{font-size:28px}
 <div class="hearts" id="hearts"></div>
 
 <!-- AUDIO -->
-<audio id="music" loop preload="auto">
+<audio id="music" preload="auto" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -336,6 +336,7 @@ const music=document.getElementById('music');
 let i=0;
 let revealed=false;
 let musicStarted=false;
+let savedTime=0;
 
 /* INIT SLIDES */
 photos.forEach(p=>{
@@ -346,6 +347,34 @@ photos.forEach(p=>{
 });
 const slides=document.querySelectorAll('.slide');
 
+/* MUSIC HELPERS */
+function fadeInMusic(){
+  music.volume=0;
+  music.play().catch(()=>{});
+  let v=0;
+  const fade=setInterval(()=>{
+    if(v<0.6){
+      v+=0.02;
+      music.volume=v;
+    }else clearInterval(fade);
+  },100);
+}
+
+function fadeOutMusic(cb){
+  let v=music.volume;
+  const fade=setInterval(()=>{
+    if(v>0){
+      v-=0.02;
+      music.volume=Math.max(v,0);
+    }else{
+      music.pause();
+      clearInterval(fade);
+      cb && cb();
+    }
+  },100);
+}
+
+/* GALLERY */
 function openPopup(n){
   i=n;
   overlay.style.display='flex';
@@ -353,15 +382,7 @@ function openPopup(n){
 
   if(!musicStarted){
     musicStarted=true;
-    music.volume=0;
-    music.play().catch(()=>{});
-    let v=0;
-    const fadeIn=setInterval(()=>{
-      if(v<0.6){
-        v+=0.02;
-        music.volume=v;
-      }else clearInterval(fadeIn);
-    },100);
+    fadeInMusic();
   }
 }
 
@@ -382,17 +403,6 @@ function next(){
     overlay.style.display='none';
     end.style.display='flex';
     setTimeout(()=>end.classList.add('show'),50);
-
-    let v=music.volume;
-    const fadeOut=setInterval(()=>{
-      if(v>0){
-        v-=0.02;
-        music.volume=Math.max(v,0);
-      }else{
-        music.pause();
-        clearInterval(fadeOut);
-      }
-    },120);
     return;
   }
   updateSlide();
@@ -412,6 +422,10 @@ function closePopup(){
 function openSecret(){
   if(revealed) return;
   revealed=true;
+
+  savedTime = music.currentTime;
+  fadeOutMusic();
+
   secret.style.display='block';
   love.classList.add('used');
   setTimeout(()=>secretImg.classList.add('show'),400);
@@ -419,7 +433,11 @@ function openSecret(){
 
 function tapToBack(){
   end.classList.remove('show');
-  setTimeout(()=>end.style.display='none',900);
+  setTimeout(()=>{
+    end.style.display='none';
+    music.currentTime = savedTime;
+    fadeInMusic();
+  },900);
 }
 </script>
 
