@@ -168,8 +168,19 @@ h2{font-size:28px}
   animation:pulse 2.4s infinite;
 }
 
-.clue{font-size:12px;color:#777;margin-top:10px}
+.end .heart.used{
+  animation:none;
+  opacity:.6;
+  cursor:default;
+}
 
+.clue{
+  font-size:12px;
+  color:#777;
+  margin-top:10px;
+}
+
+/* SECRET */
 .secret{
   display:none;
   margin-top:20px;
@@ -181,6 +192,14 @@ h2{font-size:28px}
   border-radius:20px;
   margin-bottom:14px;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
+  filter:blur(12px);
+  opacity:0;
+  transition:filter 1.8s ease, opacity 1.8s ease;
+}
+
+.secret img.show{
+  filter:blur(0);
+  opacity:1;
 }
 
 .secret p{
@@ -256,11 +275,11 @@ h2{font-size:28px}
       dan mengajarkan aku arti mencintai.
     </p>
 
-    <div class="heart" onclick="openSecret()">🤍</div>
-    <div class="clue">clue: white love</div>
+    <div class="heart" id="love" onclick="openSecret()">🤍</div>
+    <div class="clue" id="clue">clue: white love</div>
 
     <div class="secret" id="secret">
-      <img src="foto-end.JPG">
+      <img src="foto-end.JPG" id="secretImg">
       <p>
         Aku bersyukur, bukan karena hari ini saja.<br>
         Tapi karena setiap hari aku bisa menyebut namamu<br>
@@ -297,10 +316,14 @@ const popupImg=document.getElementById('popupImg');
 const popupText=document.getElementById('popupText');
 const end=document.getElementById('end');
 const secret=document.getElementById('secret');
+const secretImg=document.getElementById('secretImg');
+const love=document.getElementById('love');
+const clue=document.getElementById('clue');
 const transition=document.getElementById('transition');
 const music=document.getElementById('music');
 
 let i=0;
+let revealed=false;
 
 function openPopup(n){
   i=n;
@@ -338,7 +361,16 @@ function closePopup(){
 }
 
 function openSecret(){
+  if(revealed) return;
+  revealed=true;
+
   secret.style.display='block';
+  love.classList.add('used');
+  clue.style.display='none';
+
+  setTimeout(()=>{
+    secretImg.classList.add('show');
+  },400);
 }
 
 function backToGallery(){
