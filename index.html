@@ -176,8 +176,6 @@ h2{font-size:28px}
 }
 .end.show{opacity:1}
 
-.end-content{pointer-events:auto}
-
 .end .heart{
   font-size:38px;
   margin-top:20px;
@@ -187,7 +185,6 @@ h2{font-size:28px}
 .end .heart.used{
   animation:none;
   opacity:.6;
-  cursor:default;
 }
 
 /* SECRET */
@@ -214,7 +211,6 @@ h2{font-size:28px}
   border-radius:18px;
   line-height:1.7;
 }
-
 .clue.bottom{
   margin-top:16px;
   font-size:12px;
@@ -242,7 +238,12 @@ h2{font-size:28px}
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card" id="card">
+<!-- AUDIO -->
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
   <h2>Selamat Ulang Tahun</h2>
   <p class="name">Heronisa 🤍</p>
 
@@ -279,7 +280,7 @@ h2{font-size:28px}
 </div>
 
 <div class="end" id="end" onclick="tapToBack()">
-  <div class="end-content" onclick="event.stopPropagation()">
+  <div onclick="event.stopPropagation()">
     <p>
       Terima kasih sudah lahir,<br>
       dan mengajarkan aku arti mencintai.
@@ -330,9 +331,11 @@ const end=document.getElementById('end');
 const secret=document.getElementById('secret');
 const secretImg=document.getElementById('secretImg');
 const love=document.getElementById('love');
+const music=document.getElementById('music');
 
 let i=0;
 let revealed=false;
+let musicStarted=false;
 
 /* INIT SLIDES */
 photos.forEach(p=>{
@@ -347,6 +350,19 @@ function openPopup(n){
   i=n;
   overlay.style.display='flex';
   updateSlide();
+
+  if(!musicStarted){
+    musicStarted=true;
+    music.volume=0;
+    music.play().catch(()=>{});
+    let v=0;
+    const fadeIn=setInterval(()=>{
+      if(v<0.6){
+        v+=0.02;
+        music.volume=v;
+      }else clearInterval(fadeIn);
+    },100);
+  }
 }
 
 function updateSlide(){
@@ -366,6 +382,17 @@ function next(){
     overlay.style.display='none';
     end.style.display='flex';
     setTimeout(()=>end.classList.add('show'),50);
+
+    let v=music.volume;
+    const fadeOut=setInterval(()=>{
+      if(v>0){
+        v-=0.02;
+        music.volume=Math.max(v,0);
+      }else{
+        music.pause();
+        clearInterval(fadeOut);
+      }
+    },120);
     return;
   }
   updateSlide();
